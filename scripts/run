@@ -1,0 +1,17 @@
+#!/bin/bash
+
+NAME="BAtest"                 # Name of the application
+DJANGODIR=`pwd`               # Django project directory
+
+DJANGO_SETTINGS_MODULE=${NAME}.settings       # which settings file should Django use
+DJANGO_WSGI_MODULE=${NAME}.wsgi               # WSGI module name
+
+echo $DJANGODIR
+echo "Starting $NAME as `whoami`"
+
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+
+# Start your Django Unicorn
+# Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
+gunicorn --config gunicorn.py ${DJANGO_WSGI_MODULE}:application
+
